@@ -116,13 +116,6 @@
     "event": "firewall issue"
   },
   {
-    "template": "The average packet loss between source %{src_host} and destination %{dest_host} was p{avg_value}. More information could be found in pSDash: \n https://ps-dash.uc.ssl-hep.org/loss-delay/%{alarm_id}",
-    "description": "Code running every 3h at UC k8s cluster, calculates average packet loss for all the  src-dest pairs. Alarm is generated if the calculated value is greater than 2%. The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-packetloss.py",
-    "category": "Networking",
-    "subcategory": "Other",
-    "event": "high packet loss"
-  },
-  {
     "template": "Bandwidth improved  for %{ipv} links between site %{site} to sites: %{dest_sites}, change in percentages: %{dest_change}; and from sites: %{src_sites}, change in percentages: %{src_change} with respect to the 21-day average. More information could be found in pS-Dash: \n https://ps-dash.uc.ssl-hep.org/throughput/%{alarm_id}",
     "description": "Code running once a day at UC k8s cluster, checks for site-related significant increase in bandwidth. Alarm is generated if throughput value is above 1.9 sigma the last 3 days (based on a 21-day period) on more than 5 other sites. The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-throughput.py. The tag field contains affected site name",
     "category": "Networking",
@@ -142,13 +135,6 @@
     "category": "Networking",
     "subcategory": "Infrastructure",
     "event": "source cannot reach any"
-  },
-  {
-    "template": "From site: %{src}, perfsonar node: %{src_host} to destination site: %{dest_site}, node: %{dest_host}, there was a complete packet loss. This measurement is based on %{tests_done} of the nominal number of tests. More information could be found in pSDash: \n https://ps-dash.uc.ssl-hep.org/loss-delay/%{alarm_id}",
-    "description": "Code running every 3h at UC k8s cluster, calculates average packet loss for all the  src-dest pairs. Alarm is generated if the calculated value is equal to 100%. The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-packetloss.py",
-    "category": "Networking",
-    "subcategory": "Infrastructure",
-    "event": "complete packet loss"
   },
   {
     "category": "Networking",
@@ -172,13 +158,6 @@
     "event": "path changed"
   },
   {
-    "template": "The following hosts have been found in configurations, but not in the Elasticsearch\n%{site}\n%{hosts_not_found}.",
-    "description": "This code checks whether the throughput/trace/latency data for configured hosts are found in the Elasticsearch. It is executed weekly and takes a list of expected hosts as input. It reports sites and corresponding hosts that are mentioned in the configurations, but no data is present for them in Elasticsearch. TAGS: site name . The code can be found here: [https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-hosts-not-found.py].",
-    "category": "Networking",
-    "subcategory": "Infrastructure",
-    "event": "hosts not found"
-  },
-  {
     "template": "Bandwidth improved for %{ipv} links between sites %{src_site} and %{dest_site}. Average throughput is %{last3days_avg}MB, increased by %{change}% with respect to the 21-day average. More information could be found in pS-Dash: \n https://ps-dash.uc.ssl-hep.org/throughput/%{alarm_id}",
     "description": "Code running once a day at UC k8s cluster, checks for site to site significant increase in bandwidth. Alarm is generated if throughput value is above 2 sigma the last 3 days (based on a 21-day period). The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-throughput.py. The tag field contains affected site names",
     "category": "Networking",
@@ -193,18 +172,25 @@
     "event": "bandwidth decreased"
   },
   {
-    "template": "The %{ipv} path between %{src_netsite} and %{dest_netsite} has changed. The new path includes the following ASN(s): %{asn_list}. More information could be found in pS-Dash: \n https://ps-dash.uc.ssl-hep.org/anomalous_paths/src_netsite=%{src_netsite}&dest_netsite=%{dest_netsite}",
-    "description": "This code raises alerts when a new ASN appears on the path between 2 endpoints. The code can be found here: [https://github.com/sand-ci/AlarmsAndAlerts/blob/main/TBD.py].",
+    "template": "The following hosts have been found in configurations, but not in the Elasticsearch\n%{site}\n%{hosts_not_found}. . More information could be found in pS-Dash: \n https://ps-dash.uc.ssl-hep.org/hosts_not_found/%{site}",
+    "description": "This code checks whether the throughput/trace/latency data for configured hosts are found in the Elasticsearch. It is executed weekly and takes a list of expected hosts as input. It reports sites and corresponding hosts that are mentioned in the configurations, but no data is present for them in Elasticsearch. TAGS: site name . The code can be found here: [https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-hosts-not-found.py].",
+    "category": "Networking",
+    "subcategory": "Infrastructure",
+    "event": "hosts not found"
+  },
+  {
+    "template": "The %{ipv} path between %{src_netsite} and %{dest_netsite} has changed. The new path includes the following ASN(s): %{anomalies}. More information could be found in pS-Dash: \n https://ps-dash.uc.ssl-hep.org/anomalous_paths/src_netsite=%{src_netsite}&dest_netsite=%{dest_netsite}&dt=%{to_date}",
+    "description": "This code raises alerts when a new ASN appears on the path between 2 endpoints. The code can be found here: [https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps_asn_anomalies.py].",
     "category": "Networking",
     "subcategory": "Network",
     "event": "ASN path anomalies"
   },
   {
-    "template": "Site %{site} is experiencing high packet loss to and from multiple locations.  \nAffected destination sites: %{dest_sites}. \nAffected source sites: %{src_sites}. /nMore information could be found in pSDash: \nhttps://ps-dash.uc.ssl-hep.org/loss-delay/%{alarm_id}",
+    "template": "The average packet loss between source %{src_host} and destination %{dest_host} was %{avg_value}. More information could be found in pSDash: \n https://ps-dash.uc.ssl-hep.org/loss-delay/%{alarm_id}",
     "description": "Code running every 3h at UC k8s cluster, calculates average packet loss for all the  src-dest pairs. Alarm is generated if the calculated value is greater than 2%. The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-packetloss.py",
     "category": "Networking",
     "subcategory": "Other",
-    "event": "high packet loss on multiple links"
+    "event": "high packet loss"
   },
   {
     "template": "\n%{message}",
@@ -214,10 +200,38 @@
     "event": "weekly site report"
   },
   {
-    "template": "%{total_paths_anomalies} path change(s) were detected involving site %{site}. New ASN(s) appeared on routes where %{site} acted as a source to %{as_source_to}, and as a destination from the following sources: %{as_destination_from}. \n\nFor further details, please refer to pS-Dash:\nhttps://ps-dash.uc.ssl-hep.org/anomalous_paths/site=%{site}&date=%{to_date}",
+    "template": "%{total_paths_anomalies} path change(s) were detected involving site %{site}. New ASN(s) appeared on routes where %{site} acted as a source to %{as_source_to}, and as a destination from the following sources: %{as_destination_from}. \n\nFor further details, please refer to pS-Dash:\nhttps://ps-dash.uc.ssl-hep.org/anomalous_paths/site=%{site}&date=%{to_date}&id=%{alarm_id}",
     "description": "This code raises alerts when new ASN(s) appear on the paths between 2 endpoints for a certain site. The code can be found here: [https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps_asn_anomalies.py].",
     "category": "Networking",
     "subcategory": "Network",
     "event": "ASN path anomalies per site"
+  },
+  {
+    "template": "High one-way delay detected between %{src_site} and %{dest_site}. Current delay: %{current_delay_p95}ms (baseline: %{baseline_p95}ms, severity: %{severity_multiplier}x).",
+    "description": "Enhanced OWD detection system using adaptive baselines from BaselineManager. Detects delays exceeding 1.5x historical P95 baseline over 7-day period. Handles clock synchronization issues by using median for negative delay pairs. Part of enhanced alarm system for network performance correlation analysis. The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-high-owd.py",
+    "category": "Networking",
+    "subcategory": "Network",
+    "event": "high one-way delay"
+  },
+  {
+    "template": "Site %{site} shows high delay to/from multiple destinations (%{total_affected_pairs} pairs affected). Maximum delay: %{max_delay_p95}ms, average severity: %{avg_severity_multiplier}x. Affected destination sites: %{affected_dest_sites}. Affected source sites: %{affected_src_sites}.",
+    "description": "Multi-site high delay correlation detector. Identifies sites experiencing delay issues to/from 5 or more destinations, indicating potential site-level network problems rather than individual link issues. Uses adaptive baseline thresholds for robust detection. Part of enhanced alarm system for systematic network performance analysis.",
+    "category": "Networking",
+    "subcategory": "Network",
+    "event": "high delay from/to multiple sites"
+  },
+  {
+    "template": "From site: %{src_site}, perfsonar node: %{src_host} to destination site: %{dest_site}, node: %{dest_host}, there was a complete packet loss. This measurement is based on %{tests_done} of the nominal number of tests. More information could be found in pSDash: \n https://ps-dash.uc.ssl-hep.org/loss-delay/%{alarm_id}",
+    "description": "Code running every 3h at UC k8s cluster, calculates average packet loss for all the  src-dest pairs. Alarm is generated if the calculated value is equal to 100%. The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-packetloss.py",
+    "category": "Networking",
+    "subcategory": "Infrastructure",
+    "event": "complete packet loss"
+  },
+  {
+    "template": "Site %{site} is experiencing high packet loss to and from multiple locations.  \nAffected destination sites: %{dest_sites}. \nAffected source sites: %{src_sites}. More information could be found in pSDash: \nhttps://ps-dash.uc.ssl-hep.org/loss-delay/%{alarm_id}",
+    "description": "Code running every 3h at UC k8s cluster, calculates average packet loss for all the  src-dest pairs. Alarm is generated if the calculated value is greater than 2%. The code can be found here: https://github.com/sand-ci/AlarmsAndAlerts/blob/main/ps-packetloss.py",
+    "category": "Networking",
+    "subcategory": "Other",
+    "event": "high packet loss on multiple links"
   }
 ]
